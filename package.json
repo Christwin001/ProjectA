@@ -1,0 +1,43 @@
+{
+  "name": "crm-project",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^3.0.0-next.27",
+    "@emotion/react": "^11.13.3",
+    "@simpu/inbox-sdk": "^0.2.1",
+    "@tanstack/react-query": "^5.56.2",
+    "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
+    "formik": "^2.4.6",
+    "motion": "^12.4.3",
+    "next": "14.2.13",
+    "next-auth": "^5.0.0-beta.25",
+    "next-themes": "^0.3.0",
+    "next-view-transitions": "^0.3.2",
+    "pusher-js": "^8.4.0-rc2",
+    "qs": "^6.13.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.3.0",
+    "simpu-api-sdk": "^1.2.180",
+    "uuid": "^10.0.0",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/qs": "^6.9.16",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13",
+    "typescript": "^5"
+  }
+}
