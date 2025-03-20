@@ -1,4 +1,4 @@
-import { User, UserProfile } from "@simpu/inbox-sdk";
+import { User, UserProfile } from "simpu-api-sdk";
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {

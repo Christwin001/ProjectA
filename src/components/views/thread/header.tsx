@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  Thread,
-  QueryKeys,
-  Conversation,
-  useSimpuProvider,
-} from "@simpu/inbox-sdk";
+import { Conversation, QueryKeys, useSimpuProvider } from "@simpu/inbox-sdk";
+
 import {
   MenuContent,
   MenuItem,
@@ -13,11 +9,14 @@ import {
   MenuTrigger,
 } from "@/components/ui/menu";
 import { toaster } from "@/components/ui/toaster";
-import { IconButton } from "@chakra-ui/react";
+import { createQueryString } from "@/utils";
+import { HStack, IconButton } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "next-view-transitions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GrMoreVertical } from "react-icons/gr";
+import { Thread } from "simpu-api-sdk";
+import { CloseChatPopover } from "./close-chat-popover";
 
 export const ThreadHeader = ({ thread_id }: { thread_id: string }) => {
   const { push } = useRouter();
@@ -26,19 +25,8 @@ export const ThreadHeader = ({ thread_id }: { thread_id: string }) => {
   const searchParams = useSearchParams();
   const { apiClient } = useSimpuProvider();
 
-  const newChat = searchParams.get("new-chat") as string;
-
-  const showNewChat = newChat && newChat === "show";
-
-  const newSearchParams = showNewChat
-    ? {
-        "new-chat": "show",
-      }
-    : undefined;
-
-  const url = `${pathname}?${new URLSearchParams({
+  const url = `${pathname}?${createQueryString(searchParams, {
     "contact-info": "show",
-    ...newSearchParams,
   })}`;
 
   const handlePinChat = async () => {
@@ -73,11 +61,10 @@ export const ThreadHeader = ({ thread_id }: { thread_id: string }) => {
         title: "Success",
         description: "Unpinned chat",
       });
-    } catch (error) {
+    } catch (error: any) {
       toaster.create({
         type: "error",
         title: "Error",
-        //@ts-expect-error: error
         description: error?.message ?? error,
       });
     }
@@ -99,32 +86,39 @@ export const ThreadHeader = ({ thread_id }: { thread_id: string }) => {
       thread_id={thread_id}
       onClick={() => push(url)}
     >
-      {(thread) => (
-        <MenuRoot
-          positioning={{
-            placement: "bottom-end",
-          }}
-          onSelect={({ value }) => {
-            if (value === "pin-chat") {
-              handlePinningAction(thread);
-            }
-          }}
-        >
-          <MenuTrigger asChild>
-            <IconButton cursor="pointer" size="sm" variant="subtle">
-              <GrMoreVertical />
-            </IconButton>
-          </MenuTrigger>
-          <MenuContent>
-            <MenuItem cursor="pointer" asChild value="contact-info">
-              <Link href={url}>Contact info</Link>
-            </MenuItem>
-            <MenuItem cursor="pointer" value="pin-chat">
-              {thread?.is_favorited ? "Unpin" : "Pin"} chat
-            </MenuItem>
-          </MenuContent>
-        </MenuRoot>
-      )}
+      {(thread) => {
+        return (
+          <HStack>
+            {thread?.state !== "resolved" && (
+              <CloseChatPopover thread={thread} />
+            )}
+            <MenuRoot
+              positioning={{
+                placement: "bottom-end",
+              }}
+              onSelect={({ value }) => {
+                if (value === "pin-chat") {
+                  handlePinningAction(thread);
+                }
+              }}
+            >
+              <MenuTrigger asChild>
+                <IconButton cursor="pointer" size="xs" variant="ghost">
+                  <GrMoreVertical />
+                </IconButton>
+              </MenuTrigger>
+              <MenuContent>
+                <MenuItem cursor="pointer" asChild value="contact-info">
+                  <Link href={url}>Contact info</Link>
+                </MenuItem>
+                <MenuItem cursor="pointer" value="pin-chat">
+                  {thread?.is_favorited ? "Unpin" : "Pin"} chat
+                </MenuItem>
+              </MenuContent>
+            </MenuRoot>
+          </HStack>
+        );
+      }}
     </Conversation.Header>
   );
 };

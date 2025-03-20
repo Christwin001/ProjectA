@@ -2,7 +2,8 @@
 
 import React, { Suspense, useState } from "react";
 import { ThreadHeader } from "./header";
-import { Conversation, Message, useScrollToBottom } from "@simpu/inbox-sdk";
+import { Conversation, useScrollToBottom } from "@simpu/inbox-sdk";
+import { Message } from "simpu-api-sdk";
 import { useParams } from "next/navigation";
 import { toaster } from "@/components/ui/toaster";
 

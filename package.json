@@ -11,11 +11,12 @@
   "dependencies": {
     "@chakra-ui/react": "^3.0.0-next.27",
     "@emotion/react": "^11.13.3",
-    "@simpu/inbox-sdk": "^0.2.1",
+    "@simpu/inbox-sdk": "^0.4.10",
     "@tanstack/react-query": "^5.56.2",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
+    "lodash": "^4.17.21",
     "motion": "^12.4.3",
     "next": "14.2.13",
     "next-auth": "^5.0.0-beta.25",
@@ -26,11 +27,13 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.3.0",
+    "recharts": "^2.15.1",
     "simpu-api-sdk": "^1.2.180",
     "uuid": "^10.0.0",
-    "yup": "^1.4.0"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.16",
     "@types/node": "^20",
     "@types/qs": "^6.9.16",
     "@types/react": "^18",

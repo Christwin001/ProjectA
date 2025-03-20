@@ -7,6 +7,7 @@ import { ProfileDetails } from "@simpu/inbox-sdk";
 import { Link as NextLink } from "next-view-transitions";
 import { FaUserCircle } from "react-icons/fa";
 import { IoLogOut, IoShareSocialSharp } from "react-icons/io5";
+import { MdAssignmentAdd } from "react-icons/md";
 
 export default async function SettingsPage() {
   return (
@@ -26,6 +27,12 @@ export default async function SettingsPage() {
             <ProfileDetails />
           </NextLink>
         </ChakraLink>
+        <SettingsItem.Root href="/app/settings/saved-replies">
+          <SettingsItem.Icon>
+            <MdAssignmentAdd size={20} />
+          </SettingsItem.Icon>
+          <SettingsItem.Content>Saved replies</SettingsItem.Content>
+        </SettingsItem.Root>
         <SettingsItem.Root href="/app/settings/profile">
           <SettingsItem.Icon>
             <FaUserCircle size={20} />

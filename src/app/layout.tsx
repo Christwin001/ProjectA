@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { Provider } from "@/components/ui/provider";
 import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
@@ -15,8 +14,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>

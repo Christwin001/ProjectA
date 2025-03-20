@@ -4,7 +4,8 @@ import {
   ViewHeader,
 } from "@/components/layout/content";
 import { ConnectedAccounts } from "@/components/views/accounts";
-import { Stack, Text } from "@chakra-ui/react";
+import { BusinessNameForm } from "@/components/views/accounts/business-name-form";
+import { Stack } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 const ConnectAccount = dynamic(
@@ -21,13 +22,9 @@ export default function AccountsPage() {
       <ViewContent>
         <Stack gap={6}>
           <ViewHeader href="/app/settings">Accounts</ViewHeader>
-          <ConnectAccount />
-          <Stack px={4}>
-            <Text textStyle="sm" fontWeight="medium">
-              Your connected accounts
-            </Text>
-            <ConnectedAccounts />
-          </Stack>
+          <BusinessNameForm />
+          <ConnectedAccounts />
+          <ConnectAccount inboxType="shared" />
         </Stack>
       </ViewContent>
       <MainContent />

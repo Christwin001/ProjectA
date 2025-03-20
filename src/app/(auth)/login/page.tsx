@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { AuthError } from "next-auth";
 import { cookies } from "next/headers";
-import NextLink from "next/link";
+import { Link as NextLink } from "next-view-transitions";
 import { redirect } from "next/navigation";
 
 async function authenticate(username: string, password: string) {
@@ -58,7 +58,7 @@ export default function Login({
       redirect(`/login?message=${encodeURIComponent(error)}`);
     }
 
-    redirect("/app");
+    redirect("/app?filter=assigned");
   };
 
   return (

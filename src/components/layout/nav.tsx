@@ -1,15 +1,13 @@
 "use client";
 
 import { ColorModeButton } from "@/components/ui/color-mode";
-import { Flex, VStack } from "@chakra-ui/react";
+import { Tooltip } from "@/components/ui/tooltip";
+import { Flex, IconButton, IconButtonProps, VStack } from "@chakra-ui/react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
-import { FaGear } from "react-icons/fa6";
-import { IoChatbubble } from "react-icons/io5";
-import React from "react";
-import { Tooltip } from "@/components/ui/tooltip";
-import { IconButton, IconButtonProps } from "@chakra-ui/react";
+import { FaCirclePlay, FaGear } from "react-icons/fa6";
+import { IoCalendarNumber, IoChatbubble, IoPieChart } from "react-icons/io5";
 
 export const Nav = () => {
   const pathname = usePathname();
@@ -26,12 +24,36 @@ export const Nav = () => {
       justifyContent="space-between"
     >
       <VStack>
-        <Link href="/app">
+        <Link href="/app?filter=assigned">
           <NavButton
-            tooltipContent="Chat"
+            tooltipContent="Chats"
             variant={pathname === "/app" ? "subtle" : "ghost"}
           >
             <IoChatbubble size={20} />
+          </NavButton>
+        </Link>
+        <Link href="/app/bookings">
+          <NavButton
+            tooltipContent="Bookings"
+            variant={pathname === "/app/bookings" ? "subtle" : "ghost"}
+          >
+            <IoCalendarNumber size={20} />
+          </NavButton>
+        </Link>
+        <Link href="/app/automations">
+          <NavButton
+            tooltipContent="Automations"
+            variant={pathname.includes("/app/automations") ? "subtle" : "ghost"}
+          >
+            <FaCirclePlay size={20} />
+          </NavButton>
+        </Link>
+        <Link href="/app/analytics">
+          <NavButton
+            tooltipContent="Analytics"
+            variant={pathname === "/app/analytics" ? "subtle" : "ghost"}
+          >
+            <IoPieChart size={20} />
           </NavButton>
         </Link>
       </VStack>
@@ -73,6 +95,7 @@ export const NavButton = (props: NavButtonProps) => {
 
   return (
     <Tooltip
+      openDelay={100}
       content={tooltipContent}
       positioning={{
         placement: "left",

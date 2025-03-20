@@ -17,13 +17,14 @@ import { Box, Flex, HStack } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SearchInput } from "./search";
+import { createQueryString } from "@/utils";
 
 export const NewChatView = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { apiClient } = useSimpuProvider();
-  const { inbox } = useAccountConnectOptions();
+  const { inbox } = useAccountConnectOptions({ inboxType: "shared" });
   const { data: userAccounts } = useGetInboxAccounts(inbox?.uuid ?? "", {
     enabled: !!inbox,
   });
@@ -39,16 +40,8 @@ export const NewChatView = () => {
   >();
 
   const newChat = searchParams.get("new-chat") as string;
-  const contactInfo = searchParams.get("contact-info") as string;
 
   const showNewChat = newChat && newChat === "show";
-  const showContactInfo = contactInfo && contactInfo === "show";
-
-  const newSearchParams = showContactInfo
-    ? {
-        "contact-info": "show",
-      }
-    : undefined;
 
   const handleStartChat = async () => {
     if (body) {
@@ -78,7 +71,9 @@ export const NewChatView = () => {
       <>
         <ViewHeader
           px={6}
-          href={`${pathname}?${new URLSearchParams(newSearchParams)}`}
+          href={`${pathname}?${createQueryString(searchParams, {
+            "new-chat": null,
+          })}`}
         >
           New chat
         </ViewHeader>
@@ -99,13 +94,13 @@ export const NewChatView = () => {
         {!!selectedContact && (
           <HStack px={4} h="60px" w="full" align="center">
             <ConversationFooterTextArea
-              size="sm"
+              size="xs"
               value={body}
               placeholder="Type message here"
               onChange={(value) => setBody(value)}
             />
             <Button
-              size="sm"
+              size="xs"
               disabled={!body}
               loading={isStartingChat}
               onClick={handleStartChat}

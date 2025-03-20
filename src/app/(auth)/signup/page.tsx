@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { AuthError } from "next-auth";
 import { cookies } from "next/headers";
-import NextLink from "next/link";
+import { Link as NextLink } from "next-view-transitions";
 import { redirect } from "next/navigation";
 import { APIClient } from "simpu-api-sdk";
 
@@ -32,13 +32,20 @@ const apiClient = new APIClient({
   core: process.env.NEXT_PUBLIC_CORE_API_URL ?? "",
 });
 
-async function authenticate(email: string, password: string) {
+async function authenticate(payload: {
+  email: string;
+  password: string;
+  organisation_name: string;
+}) {
+  const { email, password, organisation_name } = payload;
+
   try {
     await apiClient.auth.register({
       email,
       password,
       first_name: "",
       last_name: "",
+      organisation_name,
     });
     const res = await signIn("credentials", {
       password,
@@ -48,6 +55,7 @@ async function authenticate(email: string, password: string) {
 
     return res?.error;
   } catch (error) {
+    console.log(error);
     if (error instanceof AuthError) {
       return error.cause?.err?.message;
     }
@@ -73,18 +81,19 @@ export default function Signup({
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const organisation_name = formData.get("organisation_name") as string;
 
     if (!email || !password) {
       redirect("/signup?message=Please provide both email and password");
     }
 
-    const error = await authenticate(email, password);
+    const error = await authenticate({ email, password, organisation_name });
 
     if (error) {
       redirect(`/signup?message=${encodeURIComponent(error)}`);
     }
 
-    redirect("/app");
+    redirect("/app?filter=assigned");
   };
 
   return (
@@ -96,6 +105,15 @@ export default function Signup({
         <Stack>
           <form style={{ width: "100%" }} action={signUp}>
             <VStack gap={6} alignItems="flex-start">
+              <VStack gap={1} w="100%" alignItems="flex-start">
+                <Field label="Business name" required>
+                  <Input
+                    type="text"
+                    id="organisation_name"
+                    name="organisation_name"
+                  />
+                </Field>
+              </VStack>
               <VStack gap={1} w="100%" alignItems="flex-start">
                 <Field label="Email" required>
                   <Input
