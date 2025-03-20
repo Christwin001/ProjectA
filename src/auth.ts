@@ -59,7 +59,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user: auth,
             token,
             organisations,
-          } = await simpuClient.auth.login(payload);
+          } = 
+          //@ts-ignore
+          await simpuClient.auth.login(payload);
 
           if (!organisations.length) {
             throw new Error(
