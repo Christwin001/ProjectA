@@ -17,9 +17,9 @@ export const CSATAnalytics = ({ dateRange }: CSATAnalyticsProps) => {
   const ratingDistributionTotal =
     data?.reduce((acc, item) => acc + item.count, 0) ?? 0;
 
-  const ratingDistributionData = data?.map(({ count }) => ({
-    name: "",
+  const ratingDistributionData = data?.map(({ count, rating_score }) => ({
     count,
+    rating_score,
   }));
 
   return (
@@ -34,8 +34,8 @@ export const CSATAnalytics = ({ dateRange }: CSATAnalyticsProps) => {
           <DonutChart
             mx="auto"
             value="count"
-            category="label"
             showLabel={true}
+            category="rating_score"
             data={ratingDistributionData}
             colors={["teal", "cyan", "green", "orange"]}
             valueFormatter={(number: number) =>

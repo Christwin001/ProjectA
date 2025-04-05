@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { toaster } from "@/components/ui/toaster";
 import { AppQueryKeys, useGetOrganisation } from "@/queries";
-import { Box, Input, Stack, Text } from "@chakra-ui/react";
+import { Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { useSimpuProvider } from "@simpu/inbox-sdk";
-import { Organization } from "simpu-api-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { FormikHelpers, useFormik } from "formik";
+import { Organization } from "simpu-api-sdk";
 import * as yup from "yup";
 
 export const BusinessNameForm = () => {
@@ -72,11 +72,11 @@ export const BusinessNameForm = () => {
             />
           </Field>
         </Stack>
-        <Box px={4}>
-          <Button w="full" type="submit" size="xs" loading={isSubmitting}>
+        <Flex px={4} justify="flex-end">
+          <Button w="80px" type="submit" size="xs" loading={isSubmitting}>
             Save
           </Button>
-        </Box>
+        </Flex>
       </Stack>
     </form>
   );

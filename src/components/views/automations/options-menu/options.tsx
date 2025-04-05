@@ -24,7 +24,7 @@ export function OptionMenuSingleOption<T>(props: OptionProps<T>) {
       textAlign="left"
       onClick={onSelect}
       alignItems="center"
-      _hover={{ bg: "gray.50" }}
+      _hover={{ bg: "bg.muted" }}
       justifyContent="space-between"
     >
       {renderItem?.(item)}
@@ -51,6 +51,7 @@ export function OptionMenuMultiOption<T>(props: OptionProps<T>) {
       display="flex"
       textAlign="left"
       alignItems="center"
+      _hover={{ bg: "bg.muted" }}
       justifyContent="space-between"
     >
       {renderItem?.(item)}

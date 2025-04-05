@@ -7,6 +7,7 @@ import {
   IconButton,
   StackProps,
   Text,
+  TextProps,
 } from "@chakra-ui/react";
 import { Link as NextLink } from "next-view-transitions";
 import { LuArrowLeft } from "react-icons/lu";
@@ -33,9 +34,15 @@ export const MainContent = (props: BoxProps) => {
 
 interface ViewHeaderProps extends StackProps {
   href: string;
+  labelProps?: TextProps;
 }
 
-export const ViewHeader = ({ href, children, ...rest }: ViewHeaderProps) => {
+export const ViewHeader = ({
+  href,
+  children,
+  labelProps,
+  ...rest
+}: ViewHeaderProps) => {
   return (
     <HStack w="full" px={6} h="60px" {...rest}>
       <NextLink href={href}>
@@ -43,7 +50,9 @@ export const ViewHeader = ({ href, children, ...rest }: ViewHeaderProps) => {
           <LuArrowLeft />
         </IconButton>
       </NextLink>
-      <Text fontWeight="medium">{children}</Text>
+      <Text fontWeight="medium" {...labelProps}>
+        {children}
+      </Text>
     </HStack>
   );
 };

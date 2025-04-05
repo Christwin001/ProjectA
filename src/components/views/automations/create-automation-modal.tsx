@@ -16,7 +16,7 @@ import { Field } from "@/components/ui/field";
 import { toaster } from "@/components/ui/toaster";
 import { AppQueryKeys } from "@/queries";
 import { DialogActionTrigger, FieldErrorText, Input } from "@chakra-ui/react";
-import { useSimpuProvider } from "@simpu/inbox-sdk";
+import { useAccountConnectOptions, useSimpuProvider } from "@simpu/inbox-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { FormikHelpers, useFormik } from "formik";
 import { useState } from "react";
@@ -26,6 +26,7 @@ import * as yup from "yup";
 export const CreateAutomationModal = (props: ButtonProps) => {
   const queryClient = useQueryClient();
   const { apiClient } = useSimpuProvider();
+  const { inbox } = useAccountConnectOptions({ inboxType: "shared" });
 
   const [open, setOpen] = useState(false);
 
@@ -35,7 +36,8 @@ export const CreateAutomationModal = (props: ButtonProps) => {
   ) => {
     try {
       helpers.setSubmitting(true);
-      await apiClient.inbox.rules.createRule(values);
+      const rule = await apiClient.inbox.rules.createRule(values);
+      inbox && apiClient.inbox.inboxes.addInboxRule(inbox?.uuid, rule.uuid);
       await queryClient.invalidateQueries({
         queryKey: [AppQueryKeys.getRules],
       });

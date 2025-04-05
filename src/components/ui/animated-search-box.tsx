@@ -34,6 +34,7 @@ export const AnimatedSearchBox = (props: InputProps) => {
               <IconButton
                 size="xs"
                 variant="ghost"
+                rounded="full"
                 onClick={() => setIsOpen(true)}
               >
                 <LuSearch />

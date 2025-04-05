@@ -1,19 +1,11 @@
 "use client";
 
 import { MainContent } from "@/components/layout/content";
-import { Button } from "@/components/ui/button";
-import { CloseButton } from "@/components/ui/close-button";
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { AnimatedSearchBox } from "@/components/ui/animated-search-box";
+import { DeleteDialog } from "@/components/ui/delete-dialog";
 import { Skeleton, SkeletonCircle } from "@/components/ui/skeleton";
 import { toaster } from "@/components/ui/toaster";
-import { AnimatedSearchBox } from "@/components/ui/animated-search-box";
+import { AutomationItemCard } from "@/components/views/automations/automation-item-card";
 import { CreateAutomationModal } from "@/components/views/automations/create-automation-modal";
 import { AppQueryKeys, useGetAutomations } from "@/queries";
 import {
@@ -23,8 +15,6 @@ import {
   CardRoot,
   CardTitle,
   Container,
-  DialogActionTrigger,
-  DialogRoot,
   Flex,
   HStack,
   IconButton,
@@ -34,15 +24,9 @@ import {
 } from "@chakra-ui/react";
 import { useDebounce, useSimpuProvider } from "@simpu/inbox-sdk";
 import { useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuTrash2,
-  LuWorkflow,
-} from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { Rule } from "simpu-api-sdk";
 
 export default function AutomationsPage() {
@@ -121,6 +105,7 @@ export default function AutomationsPage() {
               {Array.from({ length: 5 }, (v, i) => (
                 <CardRoot key={`${i.toString()}-${new Date().getTime()}`}>
                   <CardBody
+                    p={3}
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
@@ -142,59 +127,11 @@ export default function AutomationsPage() {
             <>
               <Stack gap={4}>
                 {rules?.map((rule: Rule) => (
-                  <CardRoot
+                  <AutomationItemCard
+                    rule={rule}
                     key={rule.uuid}
-                    cursor="pointer"
-                    _hover={{
-                      bg: "bg.muted",
-                    }}
-                    onClick={() => push(`/app/automations/${rule.uuid}`)}
-                  >
-                    <CardBody
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Stack
-                        gap={3}
-                        flex={1}
-                        direction="row"
-                        alignItems="center"
-                      >
-                        <Flex
-                          bg="green"
-                          color="white"
-                          boxSize="40px"
-                          align="center"
-                          rounded="full"
-                          justify="center"
-                        >
-                          <LuWorkflow />
-                        </Flex>
-                        <Stack gap={0} flex={1}>
-                          <CardTitle textStyle="sm">{rule.name}</CardTitle>
-                          <CardDescription textStyle="xs">
-                            Created{" "}
-                            {dayjs(new Date(rule.created_datetime)).format(
-                              "DD MMMM YYYY"
-                            )}
-                          </CardDescription>
-                        </Stack>
-                      </Stack>
-                      <IconButton
-                        size="xs"
-                        rounded="full"
-                        variant="subtle"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setRuleToDelete(rule);
-                        }}
-                      >
-                        <LuTrash2 />
-                      </IconButton>
-                    </CardBody>
-                  </CardRoot>
+                    onDeleteRule={() => setRuleToDelete(rule)}
+                  />
                 ))}
               </Stack>
               <Pagination.Root
@@ -243,42 +180,17 @@ export default function AutomationsPage() {
             </Flex>
           )}
         </Stack>
-        {ruleToDelete && (
-          <DialogRoot
-            open={!!ruleToDelete}
-            onOpenChange={({ open }) =>
-              setRuleToDelete(open ? ruleToDelete : undefined)
-            }
-          >
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Delete Automation</DialogTitle>
-              </DialogHeader>
-              <DialogBody>
-                Are you sure you want to delete this automation? You can&apos;t
-                undo this action once it&apos;s done.
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger asChild>
-                  <Button size="xs" type="button" variant="outline">
-                    Cancel
-                  </Button>
-                </DialogActionTrigger>
-                <Button
-                  size="xs"
-                  colorPalette="red"
-                  loading={isDeletingAutomation}
-                  onClick={handleDeleteAutomation}
-                >
-                  Delete Automation
-                </Button>
-              </DialogFooter>
-              <DialogCloseTrigger asChild>
-                <CloseButton type="button" size="xs" />
-              </DialogCloseTrigger>
-            </DialogContent>
-          </DialogRoot>
-        )}
+        <DeleteDialog
+          open={!!ruleToDelete}
+          title="Delete Automation"
+          confirmBtnText="Delete Automation"
+          isDeleting={isDeletingAutomation}
+          caption="Are you sure you want to delete this automation? You can't undo this action once it's done."
+          onDelete={handleDeleteAutomation}
+          onOpenChange={({ open }) =>
+            setRuleToDelete(open ? ruleToDelete : undefined)
+          }
+        />
       </Container>
     </MainContent>
   );

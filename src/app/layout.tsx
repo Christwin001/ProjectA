@@ -2,6 +2,8 @@ import { Provider } from "@/components/ui/provider";
 import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
+import "@calcom/atoms/globals.min.css";
+import "./global.css";
 
 export const metadata: Metadata = {
   title: "CRM Project",
@@ -16,7 +18,7 @@ export default async function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang="en" suppressHydrationWarning>
+      <html dir="ltr" lang="en" suppressHydrationWarning>
         <body>
           <Provider>
             <Box colorPalette="green">{children}</Box>

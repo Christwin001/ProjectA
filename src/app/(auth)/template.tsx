@@ -52,8 +52,8 @@ export default function AuthLayoutTemplate({ children }: PropsWithChildren) {
           <Container
             py={6}
             w="100%"
-            maxW="sm"
-            minW="sm"
+            maxW="md"
+            minW="md"
             shadow="sm"
             rounded="sm"
             bg="bg.panel"

@@ -415,9 +415,11 @@ export const AutomationView = (props: RuleFormProps) => {
           <TemplatesMenu
             label="Trigger"
             onSelectItem={handleAddTrigger}
-            options={triggerTemplatesMenuOptions.options?.filter(
-              (o) => !values.triggers.map((t) => t.slug).includes(o.slug)
-            )}
+            options={triggerTemplatesMenuOptions.options
+              ?.filter((o) => o.category.toLowerCase() === "message")
+              .filter(
+                (o) => !values.triggers.map((t) => t.slug).includes(o.slug)
+              )}
             search={triggerTemplatesMenuOptions.search}
             handleSearch={triggerTemplatesMenuOptions.handleSearch}
           />
@@ -477,12 +479,14 @@ export const AutomationView = (props: RuleFormProps) => {
                         conditionGroupIndex
                       )
                     }
-                    options={conditionTemplatesMenuOptions.options?.filter(
-                      (o) =>
-                        !values.conditions[conditionGroupIndex].group
-                          .map((t) => t.slug)
-                          .includes(o.slug)
-                    )}
+                    options={conditionTemplatesMenuOptions.options
+                      ?.filter((o) => o.category.toLowerCase() === "content")
+                      .filter(
+                        (o) =>
+                          !values.conditions[conditionGroupIndex].group
+                            .map((t) => t.slug)
+                            .includes(o.slug)
+                      )}
                     search={conditionTemplatesMenuOptions.search}
                     handleSearch={conditionTemplatesMenuOptions.handleSearch}
                   />
@@ -493,7 +497,11 @@ export const AutomationView = (props: RuleFormProps) => {
           <TemplatesMenu
             label="And condition"
             onSelectItem={handleAddConditionGroup}
-            {...conditionTemplatesMenuOptions}
+            options={conditionTemplatesMenuOptions.options?.filter(
+              (o) => o.category.toLowerCase() === "content"
+            )}
+            search={conditionTemplatesMenuOptions.search}
+            handleSearch={conditionTemplatesMenuOptions.handleSearch}
           />
         </Stack>
         <Stack>
@@ -517,9 +525,11 @@ export const AutomationView = (props: RuleFormProps) => {
           <TemplatesMenu
             label="Action"
             onSelectItem={handleAddAction}
-            options={actionTemplatesMenuOptions.options?.filter(
-              (o) => !values.actions.map((t) => t.slug).includes(o.slug)
-            )}
+            options={actionTemplatesMenuOptions.options
+              ?.filter((o) => o.category.toLowerCase() === "message")
+              .filter(
+                (o) => !values.actions.map((t) => t.slug).includes(o.slug)
+              )}
             search={actionTemplatesMenuOptions.search}
             handleSearch={actionTemplatesMenuOptions.handleSearch}
           />

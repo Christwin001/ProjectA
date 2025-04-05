@@ -55,13 +55,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             username: credentials?.username ?? "",
             password: credentials?.password ?? "",
           };
-          const {
-            user: auth,
-            token,
-            organisations,
-          } = 
-          //@ts-ignore
-          await simpuClient.auth.login(payload);
+          const { user: auth, token, organisations } =
+            //@ts-ignore
+            await simpuClient.auth.login(payload);
 
           if (!organisations.length) {
             throw new Error(

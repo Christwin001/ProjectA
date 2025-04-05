@@ -35,7 +35,7 @@ export const Nav = () => {
         <Link href="/app/bookings">
           <NavButton
             tooltipContent="Bookings"
-            variant={pathname === "/app/bookings" ? "subtle" : "ghost"}
+            variant={pathname.includes("/app/bookings") ? "subtle" : "ghost"}
           >
             <IoCalendarNumber size={20} />
           </NavButton>
@@ -63,9 +63,13 @@ export const Nav = () => {
           <NavButton
             tooltipContent="Settings"
             variant={
-              ["/app/settings", "/app/settings/notifications"].includes(
-                pathname
-              )
+              [
+                "/app/settings",
+                "/app/settings/accounts",
+                "/app/settings/saved-replies",
+                "/app/settings/saved-replies/new",
+              ].includes(pathname) ||
+              pathname.startsWith("/app/settings/saved-replies/")
                 ? "subtle"
                 : "ghost"
             }

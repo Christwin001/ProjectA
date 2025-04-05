@@ -11,12 +11,13 @@ import { ChangesOvertimeAnalytics } from "@/components/views/analytics/changes-o
 import { ChangesOvertimeAnalyticsLoading } from "@/components/views/analytics/changes-overtime/loading";
 import { CSATAnalytics } from "@/components/views/analytics/csat";
 import { CSATAnalyticsLoading } from "@/components/views/analytics/csat/loading";
+import { AnalyticsGlossaryModal } from "@/components/views/analytics/glossary-modal";
 import { AnalyticsOverview } from "@/components/views/analytics/overview";
 import { AnalyticsOverviewLoading } from "@/components/views/analytics/overview/loading";
 import { Badge, Container, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { Suspense, useState } from "react";
-import { LuCheck, LuInfo, LuListFilter } from "react-icons/lu";
+import { LuCheck, LuListFilter } from "react-icons/lu";
 import { RxDividerVertical } from "react-icons/rx";
 
 export default function AnalyticsPage() {
@@ -119,9 +120,7 @@ export default function AnalyticsPage() {
                   </PopoverContent>
                 </PopoverRoot>
 
-                <Button size="xs" variant="outline">
-                  <LuInfo />
-                </Button>
+                <AnalyticsGlossaryModal />
               </HStack>
             </Flex>
           </Stack>

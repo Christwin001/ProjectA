@@ -142,3 +142,59 @@ export interface RuleCardTypeProps<T> {
   onDelete: RuleCardProps["onDelete"];
   onChange?: (items: any, key: string) => void;
 }
+
+export interface CalEventType {
+  id: number;
+  lengthInMinutes: number;
+  lengthInMinutesOptions?: number[];
+  title: string;
+  slug: string;
+  description: string;
+  locations: { type: string }[];
+  bookingFields: {
+    type: string;
+    label?: string;
+    placeholder?: string;
+    disableOnPrefill?: boolean;
+    isDefault?: boolean;
+    slug?: string;
+    required?: boolean;
+  }[];
+  disableGuests: boolean;
+  slotInterval?: number | null;
+  minimumBookingNotice?: number;
+  beforeEventBuffer?: number;
+  afterEventBuffer?: number;
+  recurrence: {
+    interval: number;
+    occurrences: number;
+    frequency: string;
+  } | null;
+  metadata: object;
+  price: number;
+  currency: string;
+  lockTimeZoneToggleOnBookingPage: boolean;
+  seatsPerTimeSlot?: number | null;
+  forwardParamsSuccessRedirect: boolean | null;
+  successRedirectUrl: string | null;
+  isInstantEvent: boolean;
+  seatsShowAvailabilityCount?: boolean | null;
+  scheduleId: number | null;
+  bookingLimitsCount?: any;
+  onlyShowFirstAvailableSlot?: boolean;
+  bookingLimitsDuration?: any;
+  bookingWindow?: any;
+  bookerLayouts?: any;
+  confirmationPolicy?: any;
+  requiresBookerEmailVerification?: boolean;
+  hideCalendarNotes?: boolean;
+  color?: any;
+  seats?: any;
+  offsetStart?: number;
+  customName?: string;
+  destinationCalendar?: any;
+  useDestinationCalendarEmail?: boolean;
+  hideCalendarEventDetails?: boolean;
+  ownerId: number;
+  users: any[];
+}

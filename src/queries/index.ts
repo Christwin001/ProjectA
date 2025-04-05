@@ -1,24 +1,28 @@
 import { useSimpuProvider } from "@simpu/inbox-sdk";
 import {
-  ChannelIntegration,
-  CSATRatingDistribution,
-  InboxMetaResponse,
-  Organization,
-  Rule,
-  RuleTemplateItem,
-} from "simpu-api-sdk";
-import {
   useQuery,
   UseQueryOptions,
   useSuspenseQuery,
 } from "@tanstack/react-query";
+import {
+  ChannelIntegration,
+  CSATRatingDistribution,
+  InboxMetaResponse,
+  Organization,
+  QuickReply,
+  Rule,
+  RuleTemplateItem,
+} from "simpu-api-sdk";
 
 type QueryOptions<T> = Omit<UseQueryOptions<T>, "queryFn" | "queryKey">;
 
 export enum AppQueryKeys {
   "getRules" = "get-rules",
+  "getQuickReply" = "get-quick-reply",
   "getOrganisation" = "get-organisation",
   "getQuickReplies" = "get-quick-replies",
+  "getCalAccessToken" = "get-cal-access-token",
+  "getCalManagedUser" = "get-cal-managed-user",
   "getCSATAverageRating" = "get-csat-average-rating",
   "getReportMainMetrics" = "get-report-main-metrics",
   "getReportMetricsOvertime" = "get-report-metrics-over-time",
@@ -163,7 +167,7 @@ export const useGetSimpuSupportedChannels = (
     per_page?: number | undefined;
     channel_id?: string[] | undefined;
   },
-  options?: UseQueryOptions<{
+  options?: QueryOptions<{
     meta: InboxMetaResponse;
     integrations: ChannelIntegration[];
   }>
@@ -180,22 +184,41 @@ export const useGetSimpuSupportedChannels = (
   });
 };
 
-export const useGetQuickReplies = () => {
+export const useGetQuickReplies = (
+  options?: QueryOptions<{
+    meta: InboxMetaResponse;
+    quick_replies: QuickReply[];
+  }>
+) => {
   const { apiClient } = useSimpuProvider();
 
-  return useQuery({
+  return useQuery<{
+    meta: InboxMetaResponse;
+    quick_replies: QuickReply[];
+  }>({
     queryKey: [AppQueryKeys.getQuickReplies],
     queryFn: () =>
       apiClient.inbox.quick_replies.getQuickReplies("shared", {
         page: 1,
         per_page: 1000,
       }),
+    ...options,
+  });
+};
+
+export const useGetQuickReply = (id: string, options?: QueryOptions<any>) => {
+  const { apiClient } = useSimpuProvider();
+
+  return useQuery<any>({
+    queryKey: [AppQueryKeys.getQuickReply, id],
+    queryFn: () => apiClient.inbox.quick_replies.getQuickReply(id),
+    ...options,
   });
 };
 
 export const useGetAutomations = (
   params?: { q?: string; page?: number; per_page?: number },
-  options?: UseQueryOptions<{
+  options?: QueryOptions<{
     rules: Rule[];
     meta: InboxMetaResponse;
   }>
@@ -214,10 +237,7 @@ export const useGetAutomations = (
   });
 };
 
-export const useGetAutomation = (
-  id: string,
-  options?: UseQueryOptions<Rule>
-) => {
+export const useGetAutomation = (id: string, options?: QueryOptions<Rule>) => {
   const { apiClient } = useSimpuProvider();
 
   return useQuery<Rule>({
@@ -236,7 +256,7 @@ export const useGetRuleTemplates = (
     category?: string;
     status?: "active" | "inactive" | "all";
   },
-  options?: UseQueryOptions<{
+  options?: QueryOptions<{
     meta: InboxMetaResponse;
     templates: RuleTemplateItem[];
   }>
@@ -266,4 +286,58 @@ export const useGetRuleTemplates = (
       }),
     ...options,
   });
+};
+
+export const useGetCalAccessToken = (
+  userId: string,
+  options?: QueryOptions<{
+    accessToken: string;
+  }>
+) => {
+  return useQuery<{ accessToken: string }>({
+    queryKey: [AppQueryKeys.getCalAccessToken, userId],
+    queryFn: () => getCalManagedUserAccessToken(userId),
+    ...options,
+  });
+};
+
+export const useGetCalManagedUser = (
+  userId: string,
+  options?: QueryOptions<{
+    userId: string;
+    username: string;
+  }>
+) => {
+  return useQuery<{
+    userId: string;
+    username: string;
+  }>({
+    queryKey: [AppQueryKeys.getCalManagedUser, userId],
+    queryFn: () => getCalManagedUser(userId),
+    ...options,
+  });
+};
+
+export const getCalManagedUserAccessToken = async (userId: string) => {
+  const response = await fetch(`/api/get-cal-access-token/${userId}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching access token");
+  }
+
+  return response.json();
+};
+
+export const getCalManagedUser = async (userId: string) => {
+  const response = await fetch(`/api/get-cal-managed-user/${userId}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching managed user");
+  }
+
+  return response.json();
 };

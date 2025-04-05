@@ -35,17 +35,28 @@ const apiClient = new APIClient({
 async function authenticate(payload: {
   email: string;
   password: string;
+  last_name: string;
+  first_name: string;
   organisation_name: string;
 }) {
-  const { email, password, organisation_name } = payload;
+  const { email, password, first_name, last_name, organisation_name } = payload;
 
   try {
-    await apiClient.auth.register({
+    const response = await apiClient.auth.register({
       email,
       password,
-      first_name: "",
-      last_name: "",
+      last_name,
+      first_name,
       organisation_name,
+    });
+    await fetch(`${process.env.API_URL}/api/create-cal-managed-user`, {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        userId: response.user.id,
+        timeZone: "Africa/Lagos",
+        name: `${first_name} ${last_name}`,
+      }),
     });
     const res = await signIn("credentials", {
       password,
@@ -81,13 +92,21 @@ export default function Signup({
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const first_name = formData.get("first_name") as string;
+    const last_name = formData.get("last_name") as string;
     const organisation_name = formData.get("organisation_name") as string;
 
     if (!email || !password) {
       redirect("/signup?message=Please provide both email and password");
     }
 
-    const error = await authenticate({ email, password, organisation_name });
+    const error = await authenticate({
+      email,
+      password,
+      last_name,
+      first_name,
+      organisation_name,
+    });
 
     if (error) {
       redirect(`/signup?message=${encodeURIComponent(error)}`);
@@ -105,8 +124,20 @@ export default function Signup({
         <Stack>
           <form style={{ width: "100%" }} action={signUp}>
             <VStack gap={6} alignItems="flex-start">
+              <HStack w="full">
+                <VStack gap={1} w="100%" alignItems="flex-start">
+                  <Field label="Your first name" required>
+                    <Input type="text" id="first_name" name="first_name" />
+                  </Field>
+                </VStack>
+                <VStack gap={1} w="100%" alignItems="flex-start">
+                  <Field label="Your last name" required>
+                    <Input type="text" id="last_name" name="last_name" />
+                  </Field>
+                </VStack>
+              </HStack>
               <VStack gap={1} w="100%" alignItems="flex-start">
-                <Field label="Business name" required>
+                <Field label="Your business name" required>
                   <Input
                     type="text"
                     id="organisation_name"
@@ -115,7 +146,7 @@ export default function Signup({
                 </Field>
               </VStack>
               <VStack gap={1} w="100%" alignItems="flex-start">
-                <Field label="Email" required>
+                <Field label="Your email address" required>
                   <Input
                     id="email"
                     name="email"

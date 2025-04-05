@@ -27,17 +27,17 @@ export type OptionsMenuProps<T> = {
   isLoading?: boolean;
   selectAllOption?: T;
   searchQuery?: string;
-  onFetchMoreData?(): void;
   type?: "single" | "multi";
   isInfiniteScroll?: boolean;
   triggerButtonProps: ButtonProps;
+  popoverContentProps?: Omit<PopoverContentProps, "children">;
+  onFetchMoreData?(): void;
   onSelectItem?: (item: T) => void;
   onSearch?: (query: string) => void;
   isItemSelected?: (item: T) => boolean;
   renderOptions?(options?: T[]): ReactNode;
   onSelectAll?: (isSelected: boolean) => void;
   renderItem?: (item: T, index?: number) => ReactNode;
-  popoverContentProps?: Omit<PopoverContentProps, "children">;
 };
 
 export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
@@ -45,21 +45,21 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
     title,
     hasMore,
     options,
-    onSearch,
     isLoading,
-    renderItem,
     searchQuery,
-    onSelectAll,
-    onSelectItem,
-    renderOptions,
-    isItemSelected,
-    type = "single",
-    onFetchMoreData,
     selectAllOption,
+    type = "single",
     isInfiniteScroll,
     triggerButtonProps,
     popoverContentProps,
     id = "optionsMenuInfiniteScrollContainer",
+    onSearch,
+    renderItem,
+    onSelectAll,
+    onSelectItem,
+    renderOptions,
+    isItemSelected,
+    onFetchMoreData,
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -73,11 +73,6 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
     if (type === "single") {
       setOpen(false);
     }
-  };
-
-  const handleClose = () => {
-    onSearch?.("");
-    setOpen(false);
   };
 
   const handleSelectAll = (select: boolean) => {
@@ -103,25 +98,15 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
           {...triggerButtonProps}
         />
       </PopoverTrigger>
-      <PopoverContent
-        zIndex={10}
-        rounded="8px"
-        borderWidth="0"
-        boxShadow="0px 5px 20px rgba(21, 27, 38, 0.08)"
-        _focus={{
-          outline: "none",
-          boxShadow: "0px 5px 20px rgba(21, 27, 38, 0.08)",
-        }}
-        {...popoverContentProps}
-      >
+      <PopoverContent zIndex={10} {...popoverContentProps}>
         {title && (
-          <Text textStyle="sm" fontWeight="semibold" px="0.75rem" pb="0.5rem">
+          <Text textStyle="sm" fontWeight="semibold" px={3} pb={2}>
             {title}
           </Text>
         )}
-        <PopoverBody px="0" py="0.75rem">
+        <PopoverBody px="0" py={3}>
           {onSearch && (
-            <Box px="0.75rem" bg="white" position="relative" zIndex={10}>
+            <Box px={3} position="relative" zIndex={10}>
               <Input
                 size="xs"
                 type="search"
@@ -132,16 +117,11 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
               />
             </Box>
           )}
-          <Box
-            id={id}
-            maxH="300px"
-            overflowY="auto"
-            pt={onSearch ? "2.5rem" : "0"}
-          >
+          <Box id={id} maxH="300px" overflowY="auto" pt={onSearch ? 4 : 0}>
             {isLoading ? (
               <Flex
-                width="100%"
-                height="100%"
+                w="full"
+                h="full"
                 alignItems="center"
                 flexDirection="column"
                 justifyContent="center"
@@ -154,11 +134,7 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
                 style={{ overflow: "hidden" }}
                 loadMore={() => onFetchMoreData?.()}
                 loader={
-                  <Flex
-                    alignItems="center"
-                    justifyContent="center"
-                    paddingTop="2rem"
-                  >
+                  <Flex pt={4} alignItems="center" justifyContent="center">
                     <Spinner color="blue.500" size="xs" />
                   </Flex>
                 }
@@ -175,7 +151,7 @@ export function OptionsMenu<T>(props: OptionsMenuProps<T>) {
                 {renderOptions ? (
                   renderOptions(options)
                 ) : (
-                  <Stack mt="0.5rem" gap={0}>
+                  <Stack mt={2} gap={0}>
                     {type === "multi" && selectAllOption && onSelectAll && (
                       <Option
                         item={selectAllOption}
