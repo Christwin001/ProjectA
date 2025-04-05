@@ -13,25 +13,24 @@ Here is what you need to be able to run the project locally
 
 1.⁠ ⁠Fork the repo, then clone it using the following command (remember to replace the url with the url from your forked repo)
 
-   ⁠ bash
+   
    git clone https://github.com/Christwin001/ProjectA.git
     ⁠
 
 2.⁠ ⁠Go to the project folder
 
-   ⁠ bash
+   ⁠ 
    cd ProjectA
     ⁠
 
 3.⁠ ⁠Set up Node if your Node version does not meet the project's requirements, as instructed by the documentation., "nvm" (Node Version Manager) allows using Node at the version required by the project:
 
-   ⁠ bash
+ 
    nvm use
     ⁠
 
    You first might need to install the specific version and then use it:
 
-   ⁠ bash
    nvm install && nvm use
     ⁠
 
@@ -39,13 +38,13 @@ Here is what you need to be able to run the project locally
 
 4.⁠ ⁠Install the required dependencies
 
-   ⁠ bash
+   
    npm i
     ⁠
 
 7.⁠ ⁠Run the project
 
-   ⁠ bash
+   
    npm run dev
     ⁠
 
