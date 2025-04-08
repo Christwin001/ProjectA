@@ -60,14 +60,11 @@ Here is what you need to be able to run the project locally
 
 7.⁠ ⁠Run the project
 
+   npm run dev
+    ⁠
+8.⁠ ⁠Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 ## Notes
 - This system integrates Cal.com for appointment scheduling and Simpu's open-source SDK for CRM and automation.
 - The project focused on adapting and customizing these tools to meet the operational neeeds of small service-based businesses using a resource-efficient
   development approach.
--
-
-   
-   npm run dev
-    ⁠
-
-8.⁠ ⁠Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
