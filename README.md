@@ -1,3 +1,19 @@
+# ProjectA - CRM & Booking System for Service-Based Businesses
+   ProjectA is a centralized CRM system built for small-service based businesses. It integrates social media messaging, appointment scheduling, and automation to help streamline
+   customer interactions and improve operational efficiency.
+
+## Features
+   - Centralized Dashboard
+   - Appointment Booking 
+   - Social Media Messaging Integration
+   - Rule-Based Automation
+   - Customer Analytics
+
+## Tech Stack
+- Frontend: React.js
+- Backend: JavaScript SDKs for CRM, Messaging, and Booking
+- Tools: NPM, Git, NVM
+
 ## Getting Started
 
 To get a local copy up and running, please follow these simple steps.
@@ -43,6 +59,12 @@ Here is what you need to be able to run the project locally
     ⁠
 
 7.⁠ ⁠Run the project
+
+## Notes
+- This system integrates Cal.com for appointment scheduling and Simpu's open-source SDK for CRM and automation.
+- The project focused on adapting and customizing these tools to meet the operational neeeds of small service-based businesses using a resource-efficient
+  development approach.
+-
 
    
    npm run dev
