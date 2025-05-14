@@ -48,6 +48,12 @@ export const WrappedSimpuProvider = (props: PropsWithChildren) => {
       colorPalette="green"
       accessToken={session?.user.token ?? ""}
       organisationID={session?.user.profile.organisation_id ?? ""}
+      options={{
+        env: "production",
+        coreApiUrl: process.env.NEXT_PUBLIC_SIMPU_CORE_API_URL ?? "",
+        conversationApiUrl:
+          process.env.NEXT_PUBLIC_SIMPU_CONVERSATION_API_URL ?? "",
+      }}
     >
       {props.children}
     </SimpuProvider>
