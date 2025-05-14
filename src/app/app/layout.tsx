@@ -16,6 +16,12 @@ export default async function AppLayout({
       colorPalette="green"
       accessToken={session?.user.token ?? ""}
       organisationID={session?.user.profile.organisation_id ?? ""}
+      options={{
+        env: "production",
+        coreApiUrl: process.env.NEXT_PUBLIC_SIMPU_CORE_API_URL ?? "",
+        conversationApiUrl:
+          process.env.NEXT_PUBLIC_SIMPU_CONVERSATION_API_URL ?? "",
+      }}
     >
       <HStack gap={0} h="100vh" w="full" overflowY="hidden">
         <Nav />
