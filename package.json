@@ -12,7 +12,7 @@
     "@calcom/atoms": "^1.0.95",
     "@chakra-ui/react": "^3.0.0-next.27",
     "@emotion/react": "^11.13.3",
-    "@simpu/inbox-sdk": "^0.4.10",
+    "@simpu/inbox-sdk": "^0.4.12",
     "@tanstack/react-query": "^5.56.2",
     "@upstash/redis": "^1.34.5",
     "axios": "^1.7.7",
