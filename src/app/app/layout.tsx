@@ -3,6 +3,8 @@ import { Nav } from "@/components/layout/nav";
 import { Toaster } from "@/components/ui/toaster";
 import { HStack } from "@chakra-ui/react";
 import { SimpuProvider } from "@simpu/inbox-sdk";
+import { SessionProvider } from "next-auth/react";
+
 
 export default async function AppLayout({
   children,
@@ -12,6 +14,7 @@ export default async function AppLayout({
   const session = await auth();
 
   return (
+    <SessionProvider>
     <SimpuProvider
       colorPalette="green"
       accessToken={session?.user.token ?? ""}
@@ -29,5 +32,6 @@ export default async function AppLayout({
       </HStack>
       <Toaster />
     </SimpuProvider>
+    </SessionProvider>
   );
 }
