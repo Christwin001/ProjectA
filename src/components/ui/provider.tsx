@@ -3,18 +3,18 @@
 import { useGetCalAccessToken } from "@/queries";
 import { CalProvider } from "@calcom/atoms";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
-import { SessionProvider, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { PropsWithChildren } from "react";
 import { ColorModeProvider } from "./color-mode";
 import { SimpuProvider } from "@simpu/inbox-sdk";
 
 export function Provider(props: React.PropsWithChildren) {
   return (
-    <SessionProvider>
+   
       <ChakraProvider value={defaultSystem}>
         <ColorModeProvider>{props.children}</ColorModeProvider>
       </ChakraProvider>
-    </SessionProvider>
+  
   );
 }
 
@@ -45,9 +45,15 @@ export const WrappedSimpuProvider = (props: PropsWithChildren) => {
 
   return (
     <SimpuProvider
-      colorPalette="green"
-      accessToken={session?.user.token ?? ""}
-      organisationID={session?.user.profile.organisation_id ?? ""}
+    colorPalette="green"
+    accessToken={session?.user.token ?? ""}
+    organisationID={session?.user.profile.organisation_id ?? ""}
+    options={{
+      env: "production",
+      coreApiUrl: process.env.NEXT_PUBLIC_SIMPU_CORE_API_URL ?? "",
+      conversationApiUrl:
+        process.env.NEXT_PUBLIC_SIMPU_CONVERSATION_API_URL ?? "",
+    }}
     >
       {props.children}
     </SimpuProvider>
