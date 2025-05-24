@@ -1,23 +1,14 @@
 "use client";
 
-import {
-  AppCalProvider,
-  Provider,
-  WrappedSimpuProvider,
-} from "@/components/ui/provider";
-import { useParams } from "next/navigation";
-import { PropsWithChildren } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PropsWithChildren, useState } from "react";
 
 export default function CreateBookingPageLayout({
   children,
 }: PropsWithChildren) {
-  const { user_id } = useParams<{ user_id: string }>();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <Provider>
-      <WrappedSimpuProvider>
-        <AppCalProvider user_id={user_id}>{children}</AppCalProvider>
-      </WrappedSimpuProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
