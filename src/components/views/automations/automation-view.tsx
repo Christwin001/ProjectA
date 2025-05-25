@@ -481,12 +481,13 @@ export const AutomationView = (props: RuleFormProps) => {
                     }
                     options={conditionTemplatesMenuOptions.options
                       ?.filter((o) => o.category.toLowerCase() === "content")
-                      .filter(
-                        (o) =>
-                          !values.conditions[conditionGroupIndex].group
-                            .map((t) => t.slug)
-                            .includes(o.slug)
-                      )}
+                      // .filter(
+                      //   (o) =>
+                      //     !values.conditions[conditionGroupIndex].group
+                      //       .map((t) => t.slug)
+                      //       .includes(o.slug)
+                      // )
+                    }
                     search={conditionTemplatesMenuOptions.search}
                     handleSearch={conditionTemplatesMenuOptions.handleSearch}
                   />
