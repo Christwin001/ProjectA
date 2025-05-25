@@ -3,18 +3,16 @@ import { AppCalProvider } from "@/components/ui/provider";
 import { useGetCalManagedUser } from "@/queries";
 import { Booker } from "@calcom/atoms";
 import { Container, Flex, Heading, Spinner, Stack, ChakraProvider, defaultSystem} from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { useSearchParams, useParams } from "next/navigation";
 
 export default function CreateBookingPage() {
-  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const { user_id } = useParams<{ user_id: string }>();
 
   const eventTypeSlug = searchParams.get("event") as string;
 
   const { data, isLoading } = useGetCalManagedUser(
-    session?.user.profile.user_id ?? ""
+   user_id ?? ""
   );
 
   return (
