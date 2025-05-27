@@ -6,7 +6,6 @@ const simpuClient = new APIClient({
   ai: "",
   apps: "",
   graph: "",
-  inbox: "",
   report: "",
   events: "",
   payment: "",
@@ -14,6 +13,7 @@ const simpuClient = new APIClient({
   "apps-action": "",
   "knowledge-base": "",
   core: process.env.NEXT_PUBLIC_CORE_API_URL ?? "",
+  core: process.env.NEXT_PUBLIC_SIMPU_CORE_API_URL ?? "",
 });
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -72,6 +72,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           };
 
           const { profile } = await simpuClient.profile.getProfile();
+
+          const businessHoursData =
+            await simpuClient.inbox.business_hours.getBusinessHoursSettings();
+
+          if (!businessHoursData) {
+            await simpuClient.inbox.business_hours.upsertBusinessHoursSettings({
+              schedules: {},
+              is_enabled: false,
+              timezone: "Africa/Lagos",
+              message:
+                "We are currently closed. Our business hours are Monday to Friday, 9 AM to 5 PM.",
+            });
+          }
 
           return {
             auth,

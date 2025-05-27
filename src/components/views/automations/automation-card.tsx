@@ -257,7 +257,7 @@ const TemplateReplyFrequencyCard = (props: RuleCardTypeProps<boolean>) => {
 
     const replyOnce = frequency.toLowerCase() === "once" ? true : false;
 
-    onChange?.({ [key]: replyOnce }, key);
+    onChange?.({ reply_once: replyOnce }, key);
   };
 
   return (
