@@ -13,7 +13,7 @@ const simpuClient = new APIClient({
   "apps-action": "",
   "knowledge-base": "",
   core: process.env.NEXT_PUBLIC_CORE_API_URL ?? "",
-  core: process.env.NEXT_PUBLIC_SIMPU_CORE_API_URL ?? "",
+  inbox: process.env.NEXT_PUBLIC_SIMPU_CONVERSATION_API_URL ?? "",
 });
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
